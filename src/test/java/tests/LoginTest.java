@@ -12,6 +12,5 @@ public class LoginTest extends BaseTest implements TestingData {
     public void loginSuccess(){
         open(URL);
         login(ACCOUNT_NAME,USERNAME,PASSWORD);
-        Assert.assertTrue(loginPage.verifySuccessLogin());
     }
 }

@@ -13,36 +13,36 @@ import static com.codeborne.selenide.Selenide.$;
 
 public class LoginPage {
 
-    SelenideElement accountNameInput(){
+    private SelenideElement accountNameInput(){
         return $(By.id("login_accountName"));
     }
 
-    SelenideElement emailIput(){
+    private SelenideElement emailInput(){
         return $(By.id("login_emailAddress"));
     }
 
-    SelenideElement passwordInput(){
+    private SelenideElement passwordInput(){
         return $(By.id("login_password"));
     }
 
-    SelenideElement loginButton(){
+    private SelenideElement loginButton(){
         return $(By.id("btn_step1Next"));
     }
 
-    SelenideElement dashboard(){
+    private SelenideElement dashboard(){
         return $(By.xpath(".//*[@id='main']//h1"));
     }
 
 
     public void setLoginData(String accountName, String email, String password){
         accountNameInput().setValue(accountName);
-        emailIput().setValue(email);
+        emailInput().setValue(email);
         passwordInput().setValue(password);
     }
 
     public void clickOnLoginButton(){
         loginButton().click();
-        WaitLoadPage.wait(3000);
+        WaitLoadPage.wait(2000);
     }
 
     public boolean verifySuccessLogin(){

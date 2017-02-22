@@ -8,4 +8,5 @@ public interface TestingData {
     String ACCOUNT_NAME= "sonicfreight2015";
     String USERNAME = "nata_natka_natalka@outlook.com";
     String PASSWORD = "P@ssw0rd";
+    String LD_NUMBER = "LD17020074";
 }
