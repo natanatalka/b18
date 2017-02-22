@@ -1,12 +1,14 @@
 package pages;
 
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import utilities.WaitLoadPage;
 
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
 
 public class LoginPage {
@@ -27,6 +29,11 @@ public class LoginPage {
         return $(By.id("btn_step1Next"));
     }
 
+    SelenideElement dashboard(){
+        return $(By.xpath(".//*[@id='main']//h1"));
+    }
+
+
     public void setLoginData(String accountName, String email, String password){
         accountNameInput().setValue(accountName);
         emailIput().setValue(email);
@@ -38,7 +45,7 @@ public class LoginPage {
         WaitLoadPage.wait(3000);
     }
 
-    public void verifySuccessLogin(){
-
+    public boolean verifySuccessLogin(){
+        return dashboard().has(text("Dashboard"));
     }
 }
