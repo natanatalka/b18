@@ -1,7 +1,6 @@
 package tests;
 
 
-import com.codeborne.selenide.SelenideElement;
 import org.junit.Assert;
 import pages.HomePage;
 import pages.LoadsPage;
@@ -9,7 +8,8 @@ import pages.LoginPage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import setup.SetupDriver;
-import utilities.WaitLoadPage;
+
+import static com.codeborne.selenide.Selenide.open;
 
 
 public class BaseTest extends SetupDriver {
@@ -18,6 +18,7 @@ public class BaseTest extends SetupDriver {
     LoginPage loginPage = new LoginPage();
     LoadsPage loadsPage = new LoadsPage();
     private static final Logger LOGGER = LoggerFactory.getLogger(BaseTest.class);
+
 
     public void login(String account, String email, String password){
         homePage.clickOnLoginButton();

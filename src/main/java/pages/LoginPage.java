@@ -1,12 +1,9 @@
 package pages;
 
 
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
-import com.codeborne.selenide.WebDriverRunner;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import utilities.WaitLoadPage;
+import utilities.WaitPagesLoad;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
@@ -42,7 +39,7 @@ public class LoginPage {
 
     public void clickOnLoginButton(){
         loginButton().click();
-        WaitLoadPage.wait(2000);
+        WaitPagesLoad.wait(2000);
     }
 
     public boolean verifySuccessLogin(){
