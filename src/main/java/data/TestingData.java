@@ -19,7 +19,9 @@ public interface TestingData {
 
 
     //STOP DATA
-     String COMPANY_NAME = "Test_company";
+    String PICKUP = "pickup";
+    String DROPOFF = "dropoff";
+     String COMPANY_NAME = "Test_Toll Brothers";
      String SCHEDULE_TYPE = "FCFS";
      String APPOINTMENT_DATE = DateUtilities.addDaysToCurrentDate(5);
      String APPOINTMENT_TIME = "11:30";
@@ -30,7 +32,7 @@ public interface TestingData {
      String UNIT_TYPE = "TYPE-" + rand.nextInt(10);
      int UNIT_COUNT = rand.nextInt(50);
      int PALLET_COUNT = rand.nextInt(50);
-     double WEIGHT = rand.nextDouble();
+     int WEIGHT = rand.nextInt(500);
      String SHIPPER_NOTES = "SHIPPER NOTES NOTE NOT NO N";
      String NOTES = "NOTES NOTE NOT NO N";
 

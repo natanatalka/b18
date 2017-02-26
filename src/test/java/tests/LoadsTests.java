@@ -1,19 +1,14 @@
 package tests;
-import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import data.StopData;
 import data.TestingData;
+import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import utilities.DateUtilities;
-
-import java.util.Random;
 
 import static com.codeborne.selenide.Selenide.open;
 
-@RunWith(DataProviderRunner.class)
 public class LoadsTests extends BaseTest implements TestingData{
 
-    public static StopData filledPickUp = new StopData(
+    public static StopData filledStop = new StopData(
             COMPANY_NAME, SCHEDULE_TYPE, APPOINTMENT_DATE, APPOINTMENT_TIME, APPOINTMENT_NUMBER, STOP_NUMBER, PO_NUMBER, COMMODITY,
             UNIT_TYPE, UNIT_COUNT, PALLET_COUNT, WEIGHT, SHIPPER_NOTES, NOTES);
 
@@ -23,17 +18,18 @@ public class LoadsTests extends BaseTest implements TestingData{
         login(ACCOUNT_NAME, USERNAME, PASSWORD);
         loadsPage.navigateToLoadInfo(LD_NUMBER);
         loadsPage.createEmptyPickUp();
-        loadsPage.deleteCreatedStop("pickup", loadsPage.numberOfCreatedStop);
+        Assert.assertTrue(loadsPage.verifyPickupIsPresent());
+        loadsPage.deleteCreatedStop(PICKUP, loadsPage.numberOfCreatedStop);
     }
 
-    //TODO fix fucking test
     @Test
     public void addNewEmptyDropoff(){
         open(URL);
         login(ACCOUNT_NAME, USERNAME, PASSWORD);
         loadsPage.navigateToLoadInfo(LD_NUMBER);
         loadsPage.createEmptyDropOff();
-        loadsPage.deleteCreatedStop("dropoff", loadsPage.numberOfCreatedStop);
+        Assert.assertTrue(loadsPage.verifyDropoffIsPresent());
+        loadsPage.deleteCreatedStop(DROPOFF, loadsPage.numberOfCreatedStop);
     }
 
     @Test
@@ -41,6 +37,39 @@ public class LoadsTests extends BaseTest implements TestingData{
         open(URL);
         login(ACCOUNT_NAME, USERNAME, PASSWORD);
         loadsPage.navigateToLoadInfo(LD_NUMBER);
-        loadsPage.createFilledPickup(filledPickUp);
+        loadsPage.createFilledPickup(filledStop);
+        Assert.assertTrue(loadsPage.verifyPickupInfo(filledStop));
+        loadsPage.deleteCreatedStop(PICKUP, loadsPage.numberOfCreatedStop);
     }
+
+    @Test
+    public void addNewFilledDropoff(){
+        open(URL);
+        login(ACCOUNT_NAME, USERNAME, PASSWORD);
+        loadsPage.navigateToLoadInfo(LD_NUMBER);
+        loadsPage.createFilledDropoff(filledStop);
+        Assert.assertTrue(loadsPage.verifyDropoffInfo(filledStop));
+        loadsPage.deleteCreatedStop(DROPOFF, loadsPage.numberOfCreatedStop);
+    }
+
+    @Test
+    public void deletePickup(){
+        open(URL);
+        login(ACCOUNT_NAME, USERNAME, PASSWORD);
+        loadsPage.navigateToLoadInfo(LD_NUMBER);
+        loadsPage.createEmptyPickUp();
+        loadsPage.deleteCreatedStop(PICKUP, loadsPage.numberOfCreatedStop);
+        Assert.assertTrue(loadsPage.verifyPickupIsDeleted());
+    }
+
+    @Test
+    public void deleteDropoff(){
+        open(URL);
+        login(ACCOUNT_NAME, USERNAME, PASSWORD);
+        loadsPage.navigateToLoadInfo(LD_NUMBER);
+        loadsPage.createEmptyDropOff();
+        loadsPage.deleteCreatedStop(DROPOFF, loadsPage.numberOfCreatedStop);
+        Assert.assertTrue(loadsPage.verifyDropoffIsDeleted());
+    }
+
 }
