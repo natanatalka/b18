@@ -1,16 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="421ae5fc-94da-49b1-b68f-ec813e84e1fd" name="Default" comment="add tests for create filled stop, tests for delete stop">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+    <list default="true" id="421ae5fc-94da-49b1-b68f-ec813e84e1fd" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/data/TestingData.class" afterPath="$PROJECT_DIR$/target/classes/data/TestingData.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/B18.iml" afterPath="$PROJECT_DIR$/B18.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/pages/LoadsPage.java" afterPath="$PROJECT_DIR$/src/main/java/pages/LoadsPage.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/tests/LoadsTests.java" afterPath="$PROJECT_DIR$/src/test/java/tests/LoadsTests.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/data/StopData.java" afterPath="$PROJECT_DIR$/src/main/java/data/StopData.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/data/TestingData.java" afterPath="$PROJECT_DIR$/src/main/java/data/TestingData.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="B18.iws" />
@@ -699,6 +691,13 @@
       <option name="number" value="Default" />
       <updated>1487698481735</updated>
     </task>
+    <task id="LOCAL-00001" summary="add tests for create filled stop, tests for delete stop">
+      <created>1488152594906</created>
+      <option name="number" value="00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1488152594906</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -735,7 +734,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
