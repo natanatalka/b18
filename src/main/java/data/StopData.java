@@ -13,12 +13,12 @@ public class StopData {
     public String unitType;
     public int unitCount;
     public int palletCount;
-    public double weight;
+    public int weight;
     public String shipperNotes;
     public String notes;
 
     public StopData(String companyName, String scheduleType, String appointmentDate, String appointmentTime, String appointmentNumber, String stopNumber, String poNumber, String commodity,
-                    String unitType, int unitCount, int palletCount, double weight, String shipperNotes, String notes){
+                    String unitType, int unitCount, int palletCount, int weight, String shipperNotes, String notes){
         this.companyName = companyName;
         this.scheduleType = scheduleType;
         this.appointmentDate = appointmentDate;

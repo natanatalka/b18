@@ -3,21 +3,21 @@ package pages;
 
 import com.codeborne.selenide.SelenideElement;
 import data.StopData;
-import org.junit.Assert;
+import data.TestingData;
 import org.openqa.selenium.By;
 import utilities.WaitPagesLoad;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
-import static com.codeborne.selenide.Selenide.switchTo;
 
-public class LoadsPage {
+public class LoadsPage implements TestingData{
 
     private int countOfStops;
     public static int numberOfCreatedStop;
+
 
     private SelenideElement loadsTab(){
         return $(By.xpath("(.//*//a[contains(text(), 'Loads')])[1]"));
@@ -39,12 +39,12 @@ public class LoadsPage {
         return $(By.xpath(".//*//a[contains(text(),'Add new dropoff')]"));
     }
 
-    private SelenideElement saveButton(){
-        return $(By.id("btn-save-"));
+    private SelenideElement saveButton(String stopType){
+        return $(By.xpath(".//*//div[@id='add-new-" + stopType + "']//button[@id='btn-save-']"));
     }
 
     private SelenideElement deleteButton(int number){
-        return $(By.id("btn-delete-" + number));
+        return $(By.id("btn-delete-" + (number-1)));
     }
 
     private int countOfExistingStops(){
@@ -52,12 +52,8 @@ public class LoadsPage {
         return stops.size()-2;
     }
 
-    private SelenideElement pickupButton(int number){
-        return $(By.xpath(".//*//a[contains(text(),'PICKUP-" + number +"')]"));
-    }
-
-    private SelenideElement dropoffButton(int number){
-        return $(By.xpath(".//*//a[contains(text(),'DROPOFF-" + number +"')]"));
+    private SelenideElement stopButton(String stopType, int number){
+        return $(By.xpath(".//*//a[contains(text(),'" + stopType.toUpperCase() + "-" + number +"')]"));
     }
 
     public void navigateToLoadInfo(String loadNumber){
@@ -65,75 +61,174 @@ public class LoadsPage {
         LDNumber(loadNumber).click();
     }
 
-    private SelenideElement companyName(){
-        return $(By.id("companyNameInput"));
+    private SelenideElement scheduleTypeByAppointment(String stopType){
+        return $(By.xpath(".//*//div[@id='add-new-" + stopType + "']//button[@id='btn-appointment']"));
     }
 
-    private SelenideElement scheduleTypeByAppointment(){
-        return $(By.id("btn-appointment"));
+    private SelenideElement scheduleTypeByAppointment(int number){
+        return $(By.xpath(".//*//fieldset[@id='stop-" + (number-1) + "']//button[@id='btn-appointment']"));
     }
 
-    private SelenideElement scheduleTypeFCFS(){
-        return $(By.id("btn-appointment"));
+    private SelenideElement scheduleTypeFCFS(String stopType){
+        return $(By.xpath(".//*//div[@id='add-new-" + stopType + "']//button[@id='btn-fcfs']"));
     }
 
-    private SelenideElement shipperNotes(){
-        return $(By.id("shipperNotes"));
+    private SelenideElement scheduleTypeFCFS(int number){
+        return $(By.xpath(".//*//fieldset[@id='stop-" + (number-1) + "']//button[@id='btn-fcfs']"));
     }
 
-    private SelenideElement stopDate(){
-        return $(By.id("stopDate-"));
+    private SelenideElement companyName(String stopType){
+        return $(By.xpath(".//*//div[@id='add-new-" + stopType + "']//input[@id='companyNameInput']"));
     }
 
-    private SelenideElement appointmentTime(){
-        return $(By.id("stopHours"));
+    private SelenideElement companyName(int number){
+        return $(By.xpath(".//*//fieldset[@id='stop-" + (number-1) + "']//input[@id='companyNameInput']"));
     }
 
-    private SelenideElement appointmentNumber(){
-        return $(By.id("appointmentNo"));
+    private SelenideElement shipperNotes(String stopType){
+        return $(By.xpath(".//*//div[@id='add-new-" + stopType + "']//textarea[@id='shipperNotes']"));
     }
 
-    private SelenideElement stopNumber(){
-        return $(By.xpath("(.//*[@id='pickupCommodities']//input)[1]"));
+    private SelenideElement shipperNotes(int number){
+        return $(By.xpath(".//*//fieldset[@id='stop-" + (number-1) + "']//textarea[@id='shipperNotes']"));
     }
 
-    private SelenideElement poNumber(){
-        return $(By.xpath("(.//*[@id='pickupCommodities']//input)[2]"));
+    private SelenideElement appointmentDate(String stopType){
+        return $(By.xpath(".//*//div[@id='add-new-" + stopType + "']//input[@data-field='pickupTime']"));
+    }
+    private SelenideElement appointmentDate(int number){
+        return $(By.xpath(".//*//fieldset[@id='stop-" + (number-1) + "']//input[@data-field='pickupTime']"));
     }
 
-    private SelenideElement commodity(){
-        return $(By.xpath("(.//*[@id='pickupCommodities']//input)[3]"));
+    private SelenideElement appointmentTime(String stopType){
+        return $(By.xpath(".//*//div[@id='add-new-" + stopType + "']//input[@id='stopHours']"));
     }
 
-    private SelenideElement unitType(){
-        return $(By.xpath("(.//*[@id='pickupCommodities']//input)[4]"));
+    private SelenideElement appointmentTime(int number){
+        return $(By.xpath(".//*//fieldset[@id='stop-" + (number-1) + "']//input[@id='stopHours']"));
     }
 
-    private SelenideElement unitCount(){
-        return $(By.xpath("(.//*[@id='pickupCommodities']//input)[5]"));
+    private SelenideElement appointmentNumber(String stopType){
+        return $(By.xpath(".//*//div[@id='add-new-" + stopType + "']//input[@id='appointmentNo']"));
     }
 
-    private SelenideElement palletCount(){
-        return $(By.xpath("(.//*[@id='pickupCommodities']//input)[3]"));
+    private SelenideElement appointmentNumber(int number){
+        return $(By.xpath(".//*//fieldset[@id='stop-" + (number - 1) + "']//input[@id='appointmentNo']"));
     }
 
-    private SelenideElement weight(){
-        return $(By.xpath("(.//*[@id='pickupCommodities']//input)[3]"));
+    private SelenideElement stopNumber(String stopType){
+        return $(By.xpath(".//*//div[@id='add-new-" + stopType + "']//input[@data-field='pickupNumber']"));
     }
 
-    private SelenideElement companyInstructionsNotes(){
-        return $(By.id("company-instructions"));
+    private SelenideElement stopNumber(int number){
+        return $(By.xpath(".//*//fieldset[@id='stop-" + (number-1) + "']//input[@data-field='pickupNumber']"));
     }
 
+    private SelenideElement poNumber(String stopType){
+        return $(By.xpath(".//*//div[@id='add-new-" + stopType + "']//input[@data-field='poNumber']"));
+    }
 
-    public boolean verifyPickupIsCreated(){
+    private SelenideElement poNumber(int number){
+        return $(By.xpath(".//*//fieldset[@id='stop-" + (number-1) + "']//input[@data-field='poNumber']"));
+    }
+
+    private SelenideElement commodity(String stopType){
+        return $(By.xpath(".//*//div[@id='add-new-" + stopType + "']//input[@data-field='commodity']"));
+    }
+
+    private SelenideElement commodity(int number){
+        return $(By.xpath(".//*//fieldset[@id='stop-" + (number-1) + "']//input[@data-field='commodity']"));
+    }
+
+    private SelenideElement unitType(String stopType){
+        return $(By.xpath(".//*//div[@id='add-new-" + stopType + "']//input[@data-field='unitType']"));
+    }
+
+    private SelenideElement unitType(int number){
+        return $(By.xpath(".//*//fieldset[@id='stop-" + (number-1) + "']//input[@data-field='unitType']"));
+    }
+
+    private SelenideElement unitCount(String stopType){
+        return $(By.xpath(".//*//div[@id='add-new-" + stopType + "']//input[@data-field='unitCount']"));
+    }
+
+    private SelenideElement unitCount(int number){
+        return $(By.xpath(".//*//fieldset[@id='stop-" + (number-1) + "']//input[@data-field='unitCount']"));
+    }
+
+    private SelenideElement palletCount(String stopType){
+        return $(By.xpath(".//*//div[@id='add-new-" + stopType + "']//input[@data-field='palletCount']"));
+    }
+
+    private SelenideElement palletCount(int number){
+        return $(By.xpath(".//*//fieldset[@id='stop-" + (number-1) + "']//input[@data-field='palletCount']"));
+    }
+
+    private SelenideElement weight(String stopType){
+        return $(By.xpath(".//*//div[@id='add-new-" + stopType + "']//input[@data-field='weight']"));
+    }
+
+    private SelenideElement weight(int number){
+        return $(By.xpath(".//*//fieldset[@id='stop-" + (number-1) + "']//input[@data-field='weight']"));
+    }
+
+    private SelenideElement companyInstructions(String stopType){
+        return $(By.xpath(".//*//div[@id='add-new-" + stopType + "']//textarea[@id='company-instructions']"));
+    }
+
+    private SelenideElement companyInstructions(int number){
+        return $(By.xpath(".//*//fieldset[@id='stop-" + (number-1) + "']//textarea[@id='company-instructions']"));
+    }
+
+    private SelenideElement companyNameFromDropdown(String name){
+        return $(By.xpath(".//*//li[contains(text(), '" + name + "')]"));
+    }
+
+    public void setCompany(String companyName, String stopType){
+        companyName(stopType).setValue(companyName);
+        companyNameFromDropdown(companyName).click();
+    }
+
+        public void setScheduleType(String stopType, String scheduleType) {
+            switch (stopType) {
+                case (PICKUP): {
+                    switch (scheduleType) {
+                        case ("byAppointment"): {
+                            scheduleTypeByAppointment(PICKUP).click();
+                            break;
+                        }
+                        case ("FCFS"): {
+                            scheduleTypeFCFS(PICKUP).click();
+                            break;
+                        }
+                    }
+                    break;
+                }
+                case (DROPOFF): {
+                    switch (scheduleType) {
+                        case ("byAppointment"): {
+                            scheduleTypeByAppointment(DROPOFF).click();
+                            break;
+                        }
+                        case ("FCFS"): {
+                            scheduleTypeFCFS(DROPOFF).click();
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+
+    public void setNumberOfCreatedStop(){
         numberOfCreatedStop = countOfStops+1;
-        return pickupButton(countOfStops+1).exists();
+    }
+    public boolean verifyDropoffIsPresent(){
+        return stopButton(DROPOFF, countOfStops+1).exists();
     }
 
-    public boolean verifyDropoffIsCreated(){
-        numberOfCreatedStop = countOfStops+1;
-        return dropoffButton(countOfStops+1).exists();
+    public boolean verifyPickupIsPresent(){
+        return stopButton(PICKUP, countOfStops+1).exists();
     }
 
 
@@ -146,64 +241,107 @@ public class LoadsPage {
     public void createEmptyPickUp(){
         navigateToStopsSubTab();
         addNewPickupButton().click();
-        saveButton().click();
-        Assert.assertTrue(verifyPickupIsCreated());
+        saveButton(PICKUP).click();
+        setNumberOfCreatedStop();
     }
 
     public void createEmptyDropOff(){
         navigateToStopsSubTab();
         addNewDropoffButton().click();
-        saveButton().click();
-        Assert.assertTrue(verifyDropoffIsCreated());
+        saveButton(DROPOFF).click();
+        setNumberOfCreatedStop();
     }
 
-    public void fillAllStopFields(StopData stopData){
-        companyName().setValue(stopData.companyName);
-        setScheduleType(stopData.scheduleType);
-        stopDate().setValue(stopData.appointmentDate);
-
+    public void fillAllNewStopFields(String stopType, StopData stopData){
+        setCompany(stopData.companyName, stopType);
+        setScheduleType(stopType, stopData.scheduleType);
+        shipperNotes(stopType).setValue(stopData.shipperNotes);
+        appointmentDate(stopType).setValue(stopData.appointmentDate);
+        appointmentTime(stopType).setValue(stopData.appointmentTime);
+        appointmentNumber(stopType).setValue(stopData.appointmentNumber);
+        stopNumber(stopType).setValue(stopData.stopNumber);
+        poNumber(stopType).setValue(stopData.poNumber);
+        commodity(stopType).setValue(stopData.commodity);
+        unitType(stopType).setValue(stopData.unitType);
+        unitCount(stopType).setValue(Integer.toString(stopData.unitCount));
+        palletCount(stopType).setValue(Integer.toString(stopData.palletCount));
+        weight(stopType).setValue(Double.toString(stopData.weight));
+        companyInstructions(stopType).setValue(stopData.notes);
     }
 
     public void createFilledPickup(StopData stopData){
         navigateToStopsSubTab();
         addNewPickupButton().click();
-        fillAllStopFields(stopData);
+        fillAllNewStopFields(PICKUP, stopData);
+        saveButton(PICKUP).click();
+        setNumberOfCreatedStop();
     }
 
-    public void setScheduleType(String type){
-        switch (type){
-            case("byAppointment"): {
-                scheduleTypeByAppointment().click();
-                break;
-            }
-            case("FCFS"): {
-                scheduleTypeFCFS().click();
-                break;
-            }
-        }
+    public void createFilledDropoff(StopData stopData){
+        navigateToStopsSubTab();
+        addNewDropoffButton().click();
+        fillAllNewStopFields(DROPOFF, stopData);
+        saveButton(DROPOFF).click();
+        setNumberOfCreatedStop();
     }
 
-    public void openCreatedPickup( int number){
-        pickupButton(number).click();
+    public void openCreatedPickup(int number){
+        stopButton(PICKUP, number).click();
     }
 
     public void openCreatedDropoff(int number){
-        dropoffButton(number).click();
+        stopButton(DROPOFF ,number).click();
     }
 
     public void deleteCreatedStop(String type, int number){
         switch (type) {
-            case "pickup": {
+            case PICKUP: {
                 openCreatedPickup(number);
-                deleteButton(number-1).click();
+                deleteButton(number).click();
                 break;
             }
-            case "dropoff": {
+            case DROPOFF: {
                 openCreatedDropoff(number);
-                deleteButton(number-1).click();
+                deleteButton(number).click();
                 break;
             }
         }
     }
 
+    public boolean verifyPickupInfo(StopData stopData){
+        openCreatedPickup(numberOfCreatedStop);
+        return (checkAllStopFieldsAreCorrect(numberOfCreatedStop, stopData));
+    }
+
+    public boolean verifyDropoffInfo(StopData stopData){
+        openCreatedDropoff(numberOfCreatedStop);
+        return (checkAllStopFieldsAreCorrect(numberOfCreatedStop, stopData));
+    }
+
+    public boolean checkAllStopFieldsAreCorrect(int stopNumber, StopData stopData){
+        return verifyField(companyName(stopNumber), stopData.companyName) &&
+                verifyField(shipperNotes(stopNumber), stopData.shipperNotes) &&
+                verifyField(appointmentDate(stopNumber), stopData.appointmentDate) &&
+                verifyField(appointmentTime(stopNumber), stopData.appointmentTime) &&
+                verifyField(appointmentNumber(stopNumber), stopData.appointmentNumber) &&
+                verifyField(stopNumber(stopNumber), stopData.stopNumber) &&
+                verifyField(poNumber(stopNumber), stopData.poNumber) &&
+                verifyField(commodity(stopNumber), stopData.commodity) &&
+                verifyField(unitType(stopNumber), stopData.unitType) &&
+                verifyField(unitCount(stopNumber), Integer.toString(stopData.unitCount)) &&
+                verifyField(palletCount(stopNumber), Integer.toString(stopData.palletCount)) &&
+                verifyField(weight(stopNumber), Integer.toString(stopData.weight));
+    }
+
+    public boolean verifyField(SelenideElement element, String expectedValue){
+        return element.has(value(expectedValue));
+    }
+
+    public boolean verifyDropoffIsDeleted() {
+        return  verifyDropoffIsPresent();
+    }
+
+    public boolean verifyPickupIsDeleted(){
+        return  verifyPickupIsPresent();
+    }
 }
