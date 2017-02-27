@@ -12,6 +12,9 @@ public class LoadsTests extends BaseTest implements TestingData{
             COMPANY_NAME, SCHEDULE_TYPE, APPOINTMENT_DATE, APPOINTMENT_TIME, APPOINTMENT_NUMBER, STOP_NUMBER, PO_NUMBER, COMMODITY,
             UNIT_TYPE, UNIT_COUNT, PALLET_COUNT, WEIGHT, SHIPPER_NOTES, NOTES);
 
+    public static StopData onlyCommodity = new StopData(
+            STOP_NUMBER_1, PO_NUMBER_1, COMMODITY_1, UNIT_TYPE_1, UNIT_COUNT_1, PALLET_COUNT_1, WEIGHT_1);
+
     @Test
     public void addNewEmptyPickup(){
         open(URL);
@@ -70,6 +73,26 @@ public class LoadsTests extends BaseTest implements TestingData{
         loadsPage.createEmptyDropOff();
         loadsPage.deleteCreatedStop(DROPOFF, loadsPage.numberOfCreatedStop);
         Assert.assertTrue(loadsPage.verifyDropoffIsDeleted());
+    }
+
+    @Test
+    public void editPickupInfo(){
+        open(URL);
+        login(ACCOUNT_NAME, USERNAME, PASSWORD);
+        loadsPage.navigateToLoadInfo(LD_NUMBER);
+        loadsPage.createFilledPickup(filledStop);
+        loadsPage.editPickupCommmodity(loadsPage.numberOfCreatedStop, onlyCommodity);
+        Assert.assertTrue(loadsPage.verifyPickupChangedInfo(onlyCommodity));
+    }
+
+    @Test
+    public void editDropoffInfo(){
+        open(URL);
+        login(ACCOUNT_NAME, USERNAME, PASSWORD);
+        loadsPage.navigateToLoadInfo(LD_NUMBER);
+        loadsPage.createFilledDropoff(filledStop);
+        loadsPage.editDropoffCommmodity(loadsPage.numberOfCreatedStop, onlyCommodity);
+        Assert.assertTrue(loadsPage.verifyDropoffChangedInfo(onlyCommodity));
     }
 
 }

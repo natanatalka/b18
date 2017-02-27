@@ -35,7 +35,13 @@ public class StopData {
         this.notes = notes;
     }
 
-    public StopData() {
-
+    public StopData( String stopNumber, String poNumber, String commodity, String unitType, int unitCount, int palletCount, int weight) {
+        this.stopNumber = stopNumber;
+        this.poNumber = poNumber;
+        this.commodity = commodity;
+        this.unitType = unitType;
+        this.unitCount = unitCount;
+        this.palletCount = palletCount;
+        this.weight = weight;
     }
 }

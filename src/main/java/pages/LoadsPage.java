@@ -2,13 +2,17 @@ package pages;
 
 
 import com.codeborne.selenide.SelenideElement;
+import com.sun.jna.IntegerType;
+import com.sun.prism.paint.Stop;
 import data.StopData;
 import data.TestingData;
 import org.openqa.selenium.By;
+import org.openqa.selenium.remote.InterfaceImplementation;
 import utilities.WaitPagesLoad;
 
 import java.util.List;
 
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
@@ -43,6 +47,10 @@ public class LoadsPage implements TestingData{
         return $(By.xpath(".//*//div[@id='add-new-" + stopType + "']//button[@id='btn-save-']"));
     }
 
+    private SelenideElement saveButton(int number){
+        return $(By.id("btn-save-" + (number-1)));
+    }
+
     private SelenideElement deleteButton(int number){
         return $(By.id("btn-delete-" + (number-1)));
     }
@@ -61,20 +69,16 @@ public class LoadsPage implements TestingData{
         LDNumber(loadNumber).click();
     }
 
-    private SelenideElement scheduleTypeByAppointment(String stopType){
-        return $(By.xpath(".//*//div[@id='add-new-" + stopType + "']//button[@id='btn-appointment']"));
+    private String  chosenScheduleType(int number){
+        return $(By.xpath(".//*//fieldset[@id='stop-" + (number-1) + "']//descendant::div[@id='schedule-switch']")).getAttribute("data-schedule");
     }
 
-    private SelenideElement scheduleTypeByAppointment(int number){
-        return $(By.xpath(".//*//fieldset[@id='stop-" + (number-1) + "']//button[@id='btn-appointment']"));
+    private SelenideElement scheduleTypeByAppointment(String stopType){
+        return $(By.xpath(".//*//div[@id='add-new-" + stopType + "']//button[@data-field='Appointment']"));
     }
 
     private SelenideElement scheduleTypeFCFS(String stopType){
-        return $(By.xpath(".//*//div[@id='add-new-" + stopType + "']//button[@id='btn-fcfs']"));
-    }
-
-    private SelenideElement scheduleTypeFCFS(int number){
-        return $(By.xpath(".//*//fieldset[@id='stop-" + (number-1) + "']//button[@id='btn-fcfs']"));
+        return $(By.xpath(".//*//div[@id='add-new-" + stopType + "']//button[@data-field='First Come First Served']"));
     }
 
     private SelenideElement companyName(String stopType){
@@ -96,6 +100,7 @@ public class LoadsPage implements TestingData{
     private SelenideElement appointmentDate(String stopType){
         return $(By.xpath(".//*//div[@id='add-new-" + stopType + "']//input[@data-field='pickupTime']"));
     }
+
     private SelenideElement appointmentDate(int number){
         return $(By.xpath(".//*//fieldset[@id='stop-" + (number-1) + "']//input[@data-field='pickupTime']"));
     }
@@ -197,7 +202,7 @@ public class LoadsPage implements TestingData{
                             scheduleTypeByAppointment(PICKUP).click();
                             break;
                         }
-                        case ("FCFS"): {
+                        case ("First Time First Serve"): {
                             scheduleTypeFCFS(PICKUP).click();
                             break;
                         }
@@ -210,7 +215,7 @@ public class LoadsPage implements TestingData{
                             scheduleTypeByAppointment(DROPOFF).click();
                             break;
                         }
-                        case ("FCFS"): {
+                        case ("First Time First Serve"): {
                             scheduleTypeFCFS(DROPOFF).click();
                             break;
                         }
@@ -223,6 +228,7 @@ public class LoadsPage implements TestingData{
     public void setNumberOfCreatedStop(){
         numberOfCreatedStop = countOfStops+1;
     }
+
     public boolean verifyDropoffIsPresent(){
         return stopButton(DROPOFF, countOfStops+1).exists();
     }
@@ -230,7 +236,6 @@ public class LoadsPage implements TestingData{
     public boolean verifyPickupIsPresent(){
         return stopButton(PICKUP, countOfStops+1).exists();
     }
-
 
     public void navigateToStopsSubTab(){
         stopsSubTab().click();
@@ -252,7 +257,8 @@ public class LoadsPage implements TestingData{
         setNumberOfCreatedStop();
     }
 
-    public void fillAllNewStopFields(String stopType, StopData stopData){
+    //TODO separate fields Cof commodity from this
+    public void fillStopFields(String stopType, StopData stopData){
         setCompany(stopData.companyName, stopType);
         setScheduleType(stopType, stopData.scheduleType);
         shipperNotes(stopType).setValue(stopData.shipperNotes);
@@ -269,10 +275,26 @@ public class LoadsPage implements TestingData{
         companyInstructions(stopType).setValue(stopData.notes);
     }
 
+    public void editCommodityInfo(int number, StopData stopData){
+        stopNumber(number).setValue(stopData.stopNumber);
+        poNumber(number).setValue(stopData.poNumber);
+        commodity(number).setValue(stopData.commodity);
+        unitType(number).setValue(stopData.unitType);
+        unitCount(number).setValue(Integer.toString(stopData.unitCount));
+        palletCount(number).setValue(Integer.toString(stopData.palletCount));
+        weight(number).setValue(Double.toString(stopData.weight));
+    }
+
+    public void editPickupCommmodity(int number, StopData stopData){
+        openCreatedPickup(number);
+        editCommodityInfo(number, stopData);
+        saveButton(number).click();
+    }
+
     public void createFilledPickup(StopData stopData){
         navigateToStopsSubTab();
         addNewPickupButton().click();
-        fillAllNewStopFields(PICKUP, stopData);
+        fillStopFields(PICKUP, stopData);
         saveButton(PICKUP).click();
         setNumberOfCreatedStop();
     }
@@ -280,7 +302,7 @@ public class LoadsPage implements TestingData{
     public void createFilledDropoff(StopData stopData){
         navigateToStopsSubTab();
         addNewDropoffButton().click();
-        fillAllNewStopFields(DROPOFF, stopData);
+        fillStopFields(DROPOFF, stopData);
         saveButton(DROPOFF).click();
         setNumberOfCreatedStop();
     }
@@ -318,8 +340,14 @@ public class LoadsPage implements TestingData{
         return (checkAllStopFieldsAreCorrect(numberOfCreatedStop, stopData));
     }
 
+    public boolean verifyPickupChangedInfo(StopData stopData){
+        openCreatedPickup(numberOfCreatedStop);
+        return (checkAllCommodityFields(numberOfCreatedStop, stopData));
+    }
+
     public boolean checkAllStopFieldsAreCorrect(int stopNumber, StopData stopData){
         return verifyField(companyName(stopNumber), stopData.companyName) &&
+                chosenScheduleType(stopNumber).equals(stopData.scheduleType) &&
                 verifyField(shipperNotes(stopNumber), stopData.shipperNotes) &&
                 verifyField(appointmentDate(stopNumber), stopData.appointmentDate) &&
                 verifyField(appointmentTime(stopNumber), stopData.appointmentTime) &&
@@ -330,11 +358,21 @@ public class LoadsPage implements TestingData{
                 verifyField(unitType(stopNumber), stopData.unitType) &&
                 verifyField(unitCount(stopNumber), Integer.toString(stopData.unitCount)) &&
                 verifyField(palletCount(stopNumber), Integer.toString(stopData.palletCount)) &&
-                verifyField(weight(stopNumber), Integer.toString(stopData.weight));
+                verifyField(weight(stopNumber), Integer.toString(stopData.weight)) &&
+                verifyField(companyInstructions(stopNumber), stopData.notes);
+    }
+
+    public boolean checkAllCommodityFields(int number, StopData stopData){
+        return  verifyField(stopNumber(number), stopData.stopNumber) &&
+                verifyField(poNumber(number), stopData.poNumber) &&
+                verifyField(unitType(number), stopData.unitType) &&
+                verifyField(unitCount(number), Integer.toString(stopData.unitCount)) &&
+                verifyField(palletCount(number), Integer.toString(stopData.palletCount)) &&
+                verifyField(weight(number), Integer.toString(stopData.weight));
     }
 
     public boolean verifyField(SelenideElement element, String expectedValue){
-        return element.has(value(expectedValue));
+        return element.has(value(expectedValue)) || element.has(text(expectedValue));
     }
 
     public boolean verifyDropoffIsDeleted() {
@@ -343,5 +381,16 @@ public class LoadsPage implements TestingData{
 
     public boolean verifyPickupIsDeleted(){
         return  verifyPickupIsPresent();
+    }
+
+    public void editDropoffCommmodity(int number, StopData stopData) {
+        openCreatedDropoff(number);
+        editCommodityInfo(number, stopData);
+        saveButton(number).click();
+    }
+
+    public boolean verifyDropoffChangedInfo(StopData stopData) {
+        openCreatedDropoff(numberOfCreatedStop);
+        return (checkAllCommodityFields(numberOfCreatedStop, stopData));
     }
 }
